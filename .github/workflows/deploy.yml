@@ -20,6 +20,13 @@ jobs:
 
     - name: Sync repository to EC2
       run: |
-        rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./ ubuntu@18.142.237.16:/home/jenkins
-        ssh ubuntu@18.142.237.16 "cd /home/jenkins && npm install && pm2 restart 0"
+        rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./ ubuntu@18.142.237.16:/home/ubuntu/jenkins
+
+    - name: Install dependencies and restart app
+      run: |
+        ssh ubuntu@18.142.237.16 << 'EOF'
+        cd /home/ubuntu/jenkins
+        npm install
+        pm2 restart 0
+        EOF
 
